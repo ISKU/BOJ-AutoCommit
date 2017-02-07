@@ -17,10 +17,31 @@ if (userInfoFileName != undefined) {
 					process.exit();
 
 				userInfo = JSON.parse(data);
+				initClone();
 			});
 		}
 	});
 } else {
 	console.log('node app.js [info.json]');
 	process.exit();
+}
+
+function initClone() {
+	var urlArray = userInfo.remoteUrl.split('/');
+	var repo = urlArray[urlArray.length - 1].split('.');
+
+	fs.exists(repo[0], function(exists) {
+		if (!exists) {
+			git.clone(userInfo.remoteUrl, function(error, stdout, stderr) {
+				console.log(stdout);
+				console.log(stderr);
+				if (error) {
+					console.log('git clone error');
+					process.exit();
+				}
+			});
+		} else {
+			console.log('destination path \'' + repo[0] + '\' already exists');
+		}
+	});
 }
