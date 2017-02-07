@@ -2,7 +2,7 @@ var command = (process.platform === 'win32') ? 'casperjs.cmd' : 'casperjs';
 
 exports.find = function(args, successFind) {
 	var spawn = require('child_process').spawn(command, args);
-	var info = new Object();
+	var info = new String();
 
 	spawn.stdout.on('data', function(data) {
 		info = JSON.parse(data);
@@ -19,10 +19,11 @@ exports.find = function(args, successFind) {
 
 exports.download = function(args, successDownload) {
 	var spawn = require('child_process').spawn(command, args);
-	var info = new Object();
+	var info = new String();
 
 	spawn.stdout.on('data', function(data) {
-		info = JSON.parse(data);
+		info = info + String(data);
+		console.log(String(data));
 	});
 
 	spawn.stderr.on('data', function(data) {
@@ -30,6 +31,6 @@ exports.download = function(args, successDownload) {
 	});
 
 	spawn.on('exit', function(code) {
-		successDownload(info);
+		successDownload(JSON.parse(info));
 	});
 }
