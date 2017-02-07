@@ -91,7 +91,9 @@ function downloadSource() {
 					console.log(sourceNumber);
 					casper.download(fullArgs, function(info) {
 						saveSource(info, function() {
-							next(index - 1);
+							gitAll(info, function() {
+								next(index - 1);
+							});
 						});
 					});
 				} else {
@@ -122,6 +124,16 @@ function saveSource(info, successSave) {
 			console.log('\'' + file + '\' saved successfully');
 			successSave();
 		});
+	});
+}
+
+function gitAll(info, successAll) {
+	var commitMessage = 'https://www.acmicpc.net/problem/' + info.problemNumber;
+	var remoteUrl = 'https://' + userInfo.git_id + ':' + userInfo.git_password + '@github.com/' + userInfo.git_id + '/' + userInfo.repo;
+
+	git.all(info.problemNumber, commitMessage, remoteUrl, userInfo.repo, function() {
+		console.log('git push ' + info.problemNumber + ', succeeded');
+		successAll();
 	});
 }
 
