@@ -39,9 +39,20 @@ function initClone() {
 					console.log('git clone error');
 					process.exit();
 				}
+
+				findSolvedProblem();
 			});
 		} else {
 			console.log('destination path \'' + repo[0] + '\' already exists');
+			findSolvedProblem();
 		}
+	});
+}
+
+function findSolvedProblem() {
+	var args = ['./casper/find.js', userInfo.boj_id];
+
+	casper.find(args, function(info) {
+		console.log(info);
 	});
 }
