@@ -16,3 +16,20 @@ exports.find = function(args, successFind) {
 		successFind(info);
 	});
 }
+
+exports.download = function(args, successDownload) {
+	var spawn = require('child_process').spawn(command, args);
+	var info = new Object();
+
+	spawn.stdout.on('data', function(data) {
+		info = JSON.parse(data);
+	});
+
+	spawn.stderr.on('data', function(data) {
+		console.log(JSON.stringify(data));
+	});
+
+	spawn.on('exit', function(code) {
+		successDownload(info);
+	});
+}
