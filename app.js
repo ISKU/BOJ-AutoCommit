@@ -54,5 +54,25 @@ function findSolvedProblem() {
 
 	casper.find(args, function(info) {
 		console.log(info);
+		analyzeSolvedProblem(info);
 	});
+}
+
+function analyzeSolvedProblem(info) {
+	for (var index = 0; index < info.problemNumber.length; index++) {
+		var problemNumber = info.problemNumber[index];
+		var sourceNumber = info.sourceNumber[index];
+
+		if (!solvedProblemInfo.containsProblemNumber(problemNumber)) {
+			solvedProblemInfo.push({'problemNumber': problemNumber, 'sourceNumber': sourceNumber});
+			console.log(problemNumber + ' ' + sourceNumber);
+		}
+	}
+}
+
+Array.prototype.containsProblemNumber = function(element) {
+	for (var index = 0; index < this.length; index++)
+		if (this[index].problemNumber == element)
+			return true;
+	return false;
 }
