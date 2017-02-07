@@ -77,6 +77,7 @@ function downloadSource() {
 
 	(function next(index) {
 		if (index < 0) {
+			idle();
 			return;
 		} else {
 			var problemNumber = solvedProblemInfo[index].problemNumber;
@@ -135,6 +136,16 @@ function gitAll(info, successAll) {
 		console.log('git push ' + info.problemNumber + ', succeeded');
 		successAll();
 	});
+}
+
+function idle() {
+	solvedProblemInfo = new Array();
+
+	console.log('idle timeout minutes');	
+	setTimeout(function() {
+		console.log('start working');
+		findSolvedProblem();
+	}, 600000);
 }
 
 Array.prototype.containsProblemNumber = function(element) {
