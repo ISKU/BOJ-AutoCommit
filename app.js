@@ -90,7 +90,9 @@ function downloadSource() {
 
 					console.log(sourceNumber);
 					casper.download(fullArgs, function(info) {
-						next(index - 1);
+						saveSource(info, function() {
+							next(index - 1);
+						});
 					});
 				} else {
 					console.log(problemNumber + ' already exists');
@@ -99,6 +101,28 @@ function downloadSource() {
 			});
 		}
 	}) (solvedProblemInfo.length - 1);
+}
+
+function saveSource(info, successSave) {
+	var path = userInfo.repo + '/' + info.problemNumber + '/';
+	var file = path + info.problemNumber + '.' + info.language.toLowerCase();
+
+	fs.mkdir(path, function(error) {
+		if (error) {
+			console.log('mkdir error');
+			process.exit();
+		}
+
+		fs.writeFile(file, info.source, function(error) {
+			if (error) {
+				console.log('save source error');
+				process.exit();
+			}
+
+			console.log('\'' + file + '\' saved successfully');
+			successSave();
+		});
+	});
 }
 
 Array.prototype.containsProblemNumber = function(element) {
