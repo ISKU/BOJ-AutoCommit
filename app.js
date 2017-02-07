@@ -28,9 +28,9 @@ if (userInfoFileName != undefined) {
 
 function initClone() {
 	var urlArray = userInfo.remoteUrl.split('/');
-	var repo = urlArray[urlArray.length - 1].split('.');
+	userInfo.repo = urlArray[urlArray.length - 1].split('.')[0];
 
-	fs.exists(repo[0], function(exists) {
+	fs.exists(userInfo.repo, function(exists) {
 		if (!exists) {
 			git.clone(userInfo.remoteUrl, function(error, stdout, stderr) {
 				console.log(stdout);
@@ -43,7 +43,7 @@ function initClone() {
 				findSolvedProblem();
 			});
 		} else {
-			console.log('destination path \'' + repo[0] + '\' already exists');
+			console.log('destination path \'' + userInfo.repo + '\' already exists');
 			findSolvedProblem();
 		}
 	});
@@ -79,12 +79,23 @@ function downloadSource() {
 		if (index < 0) {
 			return;
 		} else {
-			var fullArgs = args.slice(0);
-			fullArgs.push(solvedProblemInfo[index].sourceNumber);
-			console.log(solvedProblemInfo[index].sourceNumber);
+			var problemNumber = solvedProblemInfo[index].problemNumber;
+			var sourceNumber = solvedProblemInfo[index].sourceNumber;
+			var checkPath = userInfo.repo + '/' + problemNumber;
 
-			casper.download(fullArgs, function(info) {
-				next(index - 1);
+			fs.exists(checkPath, function(exists) {
+				if (!exists) {
+					var fullArgs = args.slice(0);
+					fullArgs.push(sourceNumber);
+
+					console.log(sourceNumber);
+					casper.download(fullArgs, function(info) {
+						next(index - 1);
+					});
+				} else {
+					console.log(problemNumber + ' already exists');
+					next(index - 1);
+				}
 			});
 		}
 	}) (solvedProblemInfo.length - 1);
