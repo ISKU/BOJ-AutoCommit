@@ -68,6 +68,26 @@ function analyzeSolvedProblem(info) {
 			console.log(problemNumber + ' ' + sourceNumber);
 		}
 	}
+
+	downloadSource();
+}
+
+function downloadSource() {
+	var args = ['./casper/download.js', userInfo.boj_id, userInfo.boj_password];
+
+	(function next(index) {
+		if (index < 0) {
+			return;
+		} else {
+			var fullArgs = args.slice(0);
+			fullArgs.push(solvedProblemInfo[index].sourceNumber);
+			console.log(solvedProblemInfo[index].sourceNumber);
+
+			casper.download(fullArgs, function(info) {
+				next(index - 1);
+			});
+		}
+	}) (solvedProblemInfo.length - 1);
 }
 
 Array.prototype.containsProblemNumber = function(element) {
