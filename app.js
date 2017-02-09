@@ -100,11 +100,16 @@ function downloadSource() {
 
 					console.log(sourceNumber);
 					casper.download(fullArgs, function(info) {
-						saveSource(sourceTree, sourceName, info, function() {
-							gitAll(info, function() {
-								next(index - 1);
+						if (option.private(info, userInfo)) {
+							saveSource(sourceTree, sourceName, info, function() {
+								gitAll(info, function() {
+									next(index - 1);
+								});
 							});
-						});
+						} else {
+							console.log('Code #' + info.problemNumber + ' is private');
+							next(index - 1);
+						}
 					});
 				} else {
 					console.log(problemNumber + ' already exists');

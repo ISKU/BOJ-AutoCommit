@@ -36,6 +36,14 @@ exports.mkdir = function(problemNumber, userInfo) {
 	return exports.dirName(problemNumber, userInfo);
 }
 
+exports.private = function(info, userInfo) {
+	if (userInfo.hasOwnProperty('private'))
+		if (userInfo.private && info.private)
+			return false;
+
+	return true;
+}
+
 exports.poll = function(userInfo) {
 	if (userInfo.hasOwnProperty('poll'))
 		return userInfo.poll;
