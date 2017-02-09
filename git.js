@@ -42,8 +42,6 @@ exports.all = function(problemNumber, commitMessage, remoteUrl, repoPath, succes
 			}
 
 			exports.push(remoteUrl, repoPath, function(error, stdout, stderr) {
-				console.log(stdout);
-				console.log(stderr);
 				if (error) {
 					console.log('git push error');
 					process.exit();
