@@ -14,8 +14,10 @@ if (userInfoFileName != undefined) {
 			process.exit();	
 		} else {
 			fs.readFile(userInfoFileName, function(error, data) {
-				if (error)
+				if (error) {
+					console.log('read file error');
 					process.exit();
+				}
 
 				userInfo = JSON.parse(data);
 				initClone();
@@ -44,7 +46,7 @@ function initClone() {
 				findSolvedProblem();
 			});
 		} else {
-			console.log('destination path \'' + userInfo.repo + '\' already exists');
+			console.log('repository \'' + userInfo.repo + '\' already exists');
 			findSolvedProblem();
 		}
 	});
