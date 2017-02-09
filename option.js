@@ -4,6 +4,18 @@ exports.commitMessage = function(info, userInfo) {
 	return 'https://www.acmicpc.net/problem/' + info.problemNumber;
 }
 
+exports.sourceTree = function(problemNumber, userInfo) {
+	if (userInfo.hasOwnProperty('sourceTree')) {
+		if (userInfo.sourceTree.endsWith('/')) {
+			var sourceTree = userInfo.sourceTree.slice(0, userInfo.sourceTree.length - 1);
+			return sourceTree.replace(/\[NO\]/gi, problemNumber);
+		}
+		
+		return userInfo.sourceTree.replace(/\[NO\]/gi, problemNumber);
+	}
+	return userInfo.repo;
+}
+
 exports.dirName = function(problemNumber, userInfo) {
 	if (userInfo.hasOwnProperty('dirName'))
 		return (userInfo.dirName.replace(/\[NO\]/gi, problemNumber)) + '/';

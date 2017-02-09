@@ -88,7 +88,7 @@ function downloadSource() {
 			var problemNumber = solvedProblemInfo[index].problemNumber;
 			var sourceNumber = solvedProblemInfo[index].sourceNumber;
 			var language = solvedProblemInfo[index].language;
-			var sourceTree = userInfo.repo + '/' + option.mkdir(problemNumber, userInfo);
+			var sourceTree = option.sourceTree(problemNumber, userInfo) + '/' + option.mkdir(problemNumber, userInfo);
 			var sourceName = sourceTree + option.sourceName(problemNumber, language, userInfo);
 
 			fs.exists(sourceName, function(exists) {
@@ -115,23 +115,43 @@ function downloadSource() {
 
 function saveSource(sourceTree, sourceName, info, successSave) {
 	fs.exists(sourceTree, function(exists) {
-		if(!exists) {
-			fs.mkdir(sourceTree, function(error) {
-				if (error) {
-					console.log('mkdir error');
-					process.exit();
+		if (!exists) {
+			var sourceTreePath = sourceTree.split('/');
+
+			(function next(index) {
+				var currentPath = sourceTreePath[0];
+				for (var i = 1; i < sourceTreePath.length && i <= index; i++)
+					currentPath = currentPath + '/' + sourceTreePath[i];
+
+				if (index > sourceTreePath.length) {
+					fs.writeFile(sourceName, info.source, function(error) {
+						if (error) {
+							console.log('save source error');
+							process.exit();
+						}
+
+						console.log('\'' + sourceName + '\' saved successfully');
+						successSave();
+					});
+
+					return;
+				} else {
+					fs.exists(currentPath, function(exists) {
+						if (exists)
+							next(index + 1);	
+						else {
+							fs.mkdir(currentPath, function(error) {
+								if (error) {
+									console.log('mkdir error');
+									process.exit();
+								}
+
+								next(index + 1);
+							});
+						}
+					});
 				}
-
-				fs.writeFile(sourceName, info.source, function(error) {
-					if (error) {
-						console.log('save source error');
-						process.exit();
-					}
-
-					console.log('\'' + sourceName + '\' saved successfully');
-					successSave();
-				});
-			});
+			}) (0);
 		} else {
 			fs.writeFile(sourceName, info.source, function(error) {
 				if (error) {
@@ -147,10 +167,12 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 }
 
 function gitAll(info, successAll) {
-	var sourceName = option.mkdir(info.problemNumber, userInfo) + option.sourceName(info.problemNumber, info.language, userInfo);
+	var sourceTree = option.sourceTree(info.problemNumber, userInfo) + '/' + option.mkdir(info.problemNumber, userInfo);
+	var sourceName = sourceTree + option.sourceName(info.problemNumber, info.language, userInfo);
 	var commitMessage = option.commitMessage(info, userInfo);
 	var remoteUrl = 'https://' + userInfo.git_id + ':' + userInfo.git_password + '@github.com/' + userInfo.git_id + '/' + userInfo.repo;
 
+	sourceName = sourceName.replace(userInfo.repo + '/', '');
 	git.all(sourceName, commitMessage, remoteUrl, userInfo.repo, function() {
 		console.log('git push ' + info.problemNumber + ', succeeded');
 		successAll();
