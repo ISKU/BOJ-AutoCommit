@@ -13,6 +13,11 @@ casper.start('https://www.acmicpc.net/status/?user_id=' + id + '&language_id=-1&
 				problemNumber:
 					[].map.call(__utils__.findAll('#status-table tr td:nth-child(3) a'), function(element) {
 						return element.innerHTML;
+					}),
+
+				language:
+					[].map.call(__utils__.findAll('#status-table tr td:nth-child(7)'), function(element) {
+						return element.innerHTML.replace(/ |\t|\n/gi, '');
 					})
 			}
 		});
