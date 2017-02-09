@@ -130,7 +130,7 @@ function saveSource(info, successSave) {
 }
 
 function gitAll(info, successAll) {
-	var commitMessage = 'https://www.acmicpc.net/problem/' + info.problemNumber;
+	var commitMessage = option.commitMessage(info, userInfo);
 	var remoteUrl = 'https://' + userInfo.git_id + ':' + userInfo.git_password + '@github.com/' + userInfo.git_id + '/' + userInfo.repo;
 
 	git.all(info.problemNumber, commitMessage, remoteUrl, userInfo.repo, function() {
