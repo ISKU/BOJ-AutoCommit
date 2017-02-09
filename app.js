@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs = require('fs');
 var git = require('./git.js');
 var casper = require('./casper.js');
