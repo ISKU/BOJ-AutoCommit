@@ -1,6 +1,7 @@
 var fs = require('fs');
 var git = require('./git.js');
 var casper = require('./casper.js');
+var option = require('./option.js');
 
 var userInfoFileName = process.argv[2];
 var userInfo = new Object();
@@ -139,13 +140,14 @@ function gitAll(info, successAll) {
 }
 
 function idle() {
+	var poll = option.poll(userInfo);
 	solvedProblemInfo = new Array();
 
-	console.log('idle timeout minutes');	
+	console.log('Wait ' + poll + ' milliseconds...');	
 	setTimeout(function() {
 		console.log('start working');
 		findSolvedProblem();
-	}, 600000);
+	}, poll);
 }
 
 Array.prototype.containsProblemNumber = function(element) {
