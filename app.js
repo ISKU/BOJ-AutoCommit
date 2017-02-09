@@ -63,10 +63,14 @@ function analyzeSolvedProblem(info) {
 	for (var index = 0; index < info.problemNumber.length; index++) {
 		var problemNumber = info.problemNumber[index];
 		var sourceNumber = info.sourceNumber[index];
+		var language = info.language[index];
 
 		if (!solvedProblemInfo.containsProblemNumber(problemNumber)) {
-			solvedProblemInfo.push({'problemNumber': problemNumber, 'sourceNumber': sourceNumber});
-			console.log(problemNumber + ' ' + sourceNumber);
+			solvedProblemInfo.push({'problemNumber': problemNumber, 
+						'sourceNumber': sourceNumber, 
+						'language': language});
+
+			console.log(problemNumber + ' ' + sourceNumber + ' ' + language);
 		}
 	}
 
@@ -83,16 +87,18 @@ function downloadSource() {
 		} else {
 			var problemNumber = solvedProblemInfo[index].problemNumber;
 			var sourceNumber = solvedProblemInfo[index].sourceNumber;
-			var checkPath = userInfo.repo + '/' + problemNumber;
+			var language = solvedProblemInfo[index].language;
+			var sourceTree = userInfo.repo + '/' + option.mkdir(problemNumber, userInfo);
+			var sourceName = sourceTree + option.sourceName(problemNumber, language, userInfo);
 
-			fs.exists(checkPath, function(exists) {
+			fs.exists(sourceName, function(exists) {
 				if (!exists) {
 					var fullArgs = args.slice(0);
 					fullArgs.push(sourceNumber);
 
 					console.log(sourceNumber);
 					casper.download(fullArgs, function(info) {
-						saveSource(info, function() {
+						saveSource(sourceTree, sourceName, info, function() {
 							gitAll(info, function() {
 								next(index - 1);
 							});
@@ -107,33 +113,45 @@ function downloadSource() {
 	}) (solvedProblemInfo.length - 1);
 }
 
-function saveSource(info, successSave) {
-	var path = userInfo.repo + '/' + info.problemNumber + '/';
-	var file = path + info.problemNumber + '.' + info.language.toLowerCase();
+function saveSource(sourceTree, sourceName, info, successSave) {
+	fs.exists(sourceTree, function(exists) {
+		if(!exists) {
+			fs.mkdir(sourceTree, function(error) {
+				if (error) {
+					console.log('mkdir error');
+					process.exit();
+				}
 
-	fs.mkdir(path, function(error) {
-		if (error) {
-			console.log('mkdir error');
-			process.exit();
+				fs.writeFile(sourceName, info.source, function(error) {
+					if (error) {
+						console.log('save source error');
+						process.exit();
+					}
+
+					console.log('\'' + sourceName + '\' saved successfully');
+					successSave();
+				});
+			});
+		} else {
+			fs.writeFile(sourceName, info.source, function(error) {
+				if (error) {
+					console.log('save source error');
+					process.exit();
+				}
+
+				console.log('\'' + sourceName + '\' saved successfully');
+				successSave();
+			});
 		}
-
-		fs.writeFile(file, info.source, function(error) {
-			if (error) {
-				console.log('save source error');
-				process.exit();
-			}
-
-			console.log('\'' + file + '\' saved successfully');
-			successSave();
-		});
 	});
 }
 
 function gitAll(info, successAll) {
+	var sourceName = option.mkdir(info.problemNumber, userInfo) + option.sourceName(info.problemNumber, info.language, userInfo);
 	var commitMessage = option.commitMessage(info, userInfo);
 	var remoteUrl = 'https://' + userInfo.git_id + ':' + userInfo.git_password + '@github.com/' + userInfo.git_id + '/' + userInfo.repo;
 
-	git.all(info.problemNumber, commitMessage, remoteUrl, userInfo.repo, function() {
+	git.all(sourceName, commitMessage, remoteUrl, userInfo.repo, function() {
 		console.log('git push ' + info.problemNumber + ', succeeded');
 		successAll();
 	});
