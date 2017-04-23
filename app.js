@@ -102,7 +102,10 @@ function downloadSource() {
 
 					console.log(sourceNumber);
 					casper.download(fullArgs, function(info) {
-						if (option.private(info, userInfo)) {
+						if (info == null) {
+							console.log('Failed to download source number #' + sourceNumber);
+							next(index - 1);
+						} else if (option.private(info, userInfo)) {
 							saveSource(sourceTree, sourceName, info, function() {
 								gitAll(info, function() {
 									next(index - 1);
