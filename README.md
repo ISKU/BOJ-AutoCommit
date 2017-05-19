@@ -12,7 +12,7 @@ $ git clone https://github.com/ISKU/BOJ-AutoCommit
 
 **Dependency**
 ``` bash
-$ npm install -g phantomjs
+$ sudo apt-get install phantomjs
 $ npm install -g casperjs
 ```
 
@@ -49,6 +49,8 @@ Default
 > - 문제번호로 Directory를 생성 한 후, 하위에 문제번호를 제목으로 Source Code 파일이 저장됩니다.
 > - Commit Message는 기본적으로 "https://www.acmicpc.net/problem/문제번호" 입니다.
 > - 약 10분마다 맞았던 문제를 검색하고 새롭게 맞은 문제가 있으면 원격저장소에 Push합니다.
+> - 정답을 맞춘 가장 최근 20개의 문제에 대해서만 분석하며, 정답을 맞춘 모든 문제를 다루지는 않습니다.
+> - 정답을 맞춘 문제가 여러가지가 있을 경우 가장 마지막에 제출한 Source Code를 선택합니다.
 
 Extension
 ----------
@@ -113,6 +115,6 @@ License
 
 Author
 ----------
-> - Kim Min-Ho ([ISKU](https://github.com/ISKU))
+> - Minho Kim ([ISKU](https://github.com/ISKU))
 > - https://www.acmicpc.net/user/isku
-> - **Email:** minho1a@hanmail.net
+> - **E-mail:** minho1a@hanmail.net
