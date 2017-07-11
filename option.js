@@ -63,7 +63,7 @@ function replaceNumber(value, problemNumber) {
 }
 
 function replaceAll(value, problemNumber, problemTitle) {
-	return value.replace(/\[NO\]/gi, problemNumber)).replace(/\[TITLE\]/gi, problemTitle));
+	return value.replace(/\[NO\]/gi, problemNumber).replace(/\[TITLE\]/gi, problemTitle);
 }
 
 function getExt(language) {
