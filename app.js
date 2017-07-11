@@ -78,7 +78,8 @@ function analyzeSolvedProblem(info) {
 		}
 	}
 
-	getProblemTitle();
+	// getProblemTitle(); // TODO: This function is accurate but very slow.
+	downloadSource();
 }
 
 function getProblemTitle() {
