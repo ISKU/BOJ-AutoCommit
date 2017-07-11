@@ -78,7 +78,28 @@ function analyzeSolvedProblem(info) {
 		}
 	}
 
+	// getProblemTitle(); // TODO: This function is accurate but very slow.
 	downloadSource();
+}
+
+function getProblemTitle() {
+	(function next(index) {
+		if (index < 0) {
+			downloadSource();
+			return;
+		} else {
+			casper.title(['./casper/title.js', solvedProblemInfo[index].problemNumber], function(problemTitle) {
+				if (problemTitle == null) {
+					console.log('getProblemTitle error');
+					process.exit();
+				}
+				
+				solvedProblemInfo[index].problemTitle = problemTitle;
+				console.log(solvedProblemInfo[index].problemTitle);
+				next(index - 1);
+			});
+		}
+	}) (solvedProblemInfo.length - 1);
 }
 
 function downloadSource() {

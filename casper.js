@@ -34,3 +34,20 @@ exports.download = function(args, successDownload) {
 		successDownload(JSON.parse(info));
 	});
 }
+
+exports.title = function(args, successTitle) {
+	var spawn = require('child_process').spawn(command, args);
+	var info = new String();
+
+	spawn.stdout.on('data', function(data) {
+		info = String(data);
+	});
+
+	spawn.stderr.on('data', function(data) {
+		console.log(JSON.stringify(data));
+	});
+
+	spawn.on('exit', function(code) {
+		successTitle(info);
+	});
+}

@@ -18,6 +18,7 @@ casper.thenOpen('https://www.acmicpc.net/source/' + sourceNumber, function() {
 			return {
 				source: document.querySelector('#source').value,
 				problemNumber: __utils__.findOne('.table-striped tr td:nth-child(3) a').innerHTML,
+				problemTitle: __utils__.findOne('.table-striped tr td:nth-child(4)').innerHTML,
 				language: __utils__.findOne('.table-striped tr td:nth-child(8)').innerHTML,
 				private: document.querySelector('#code_open_close').checked
 			}
