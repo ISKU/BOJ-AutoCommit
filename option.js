@@ -1,6 +1,6 @@
 exports.commitMessage = function(info, userInfo) {
 	if (userInfo.hasOwnProperty('commitMessage'))
-		return userInfo.commitMessage.replace(/\[NO\]/gi, info.problemNumber);
+		return replaceAll(userInfo.commitMessage, info.problemNumber, info.problemTitle);
 
 	return 'https://www.acmicpc.net/problem/' + info.problemNumber;
 }
