@@ -48,7 +48,7 @@ function initClone() {
 				findSolvedProblem();
 			});
 		} else {
-			console.log('repository \'' + userInfo.repo + '\' already exists');
+			console.log('* Repository \'' + userInfo.repo + '\' already exists.\n');
 			findSolvedProblem();
 		}
 	});
@@ -58,7 +58,7 @@ function findSolvedProblem() {
 	var args = ['./casper/find.js', userInfo.boj_id];
 
 	casper.find(args, function(info) {
-		console.log(info);
+		// console.log(info); // Confirmation log.
 		analyzeSolvedProblem(info);
 	});
 }
@@ -73,8 +73,6 @@ function analyzeSolvedProblem(info) {
 			solvedProblemInfo.push({'problemNumber': problemNumber, 
 						'sourceNumber': sourceNumber, 
 						'language': language});
-
-			console.log(problemNumber + ' ' + sourceNumber + ' ' + language);
 		}
 	}
 
@@ -121,10 +119,10 @@ function downloadSource() {
 					var fullArgs = args.slice(0);
 					fullArgs.push(sourceNumber);
 
-					console.log(sourceNumber);
+					console.log('\n* Downloading source number #' + sourceNumber + ', problem number #' + problemNumber);
 					casper.download(fullArgs, function(info) {
 						if (info == null) {
-							console.log('Failed to download source number #' + sourceNumber);
+							console.log('* Failed to download source number #' + sourceNumber + ', problem number #' + problemNumber + '\n');
 							next(index - 1);
 						} else if (option.private(info, userInfo)) {
 							saveSource(sourceTree, sourceName, info, function() {
@@ -133,12 +131,12 @@ function downloadSource() {
 								});
 							});
 						} else {
-							console.log('Code #' + info.problemNumber + ' is private');
+							console.log('* Problem #' + info.problemNumber + ' is private.');
 							next(index - 1);
 						}
 					});
 				} else {
-					console.log(problemNumber + ' already exists');
+					console.log('* Problem #' + problemNumber + ' already exists.');
 					next(index - 1);
 				}
 			});
@@ -163,7 +161,7 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 							process.exit();
 						}
 
-						console.log('\'' + sourceName + '\' saved successfully');
+						console.log('* Successfully saved the \'' + sourceName + '\'');
 						successSave();
 					});
 
@@ -192,7 +190,7 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 					process.exit();
 				}
 
-				console.log('\'' + sourceName + '\' saved successfully');
+				console.log('* Successfully saved the \'' + sourceName + '\'');
 				successSave();
 			});
 		}
@@ -207,7 +205,7 @@ function gitAll(info, successAll) {
 
 	sourceName = sourceName.replace(userInfo.repo + '/', '');
 	git.all(sourceName, commitMessage, remoteUrl, userInfo.repo, function() {
-		console.log('git push ' + info.problemNumber + ', succeeded');
+		console.log('* Successfully pushed the problem number #' + info.problemNumber + ' to remote repository.\n');
 		successAll();
 	});
 }
@@ -216,9 +214,9 @@ function idle() {
 	var poll = option.poll(userInfo);
 	solvedProblemInfo = new Array();
 
-	console.log('Wait ' + poll + ' milliseconds...');	
+	console.log('* Wait ' + poll + ' milliseconds...\n');	
 	setTimeout(function() {
-		console.log('start working');
+		console.log('* Restart work.');
 		findSolvedProblem();
 	}, poll);
 }
