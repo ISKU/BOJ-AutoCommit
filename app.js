@@ -12,12 +12,12 @@ var solvedProblemInfo = new Array();
 if (userInfoFileName != undefined) {
 	fs.exists(userInfoFileName, function(exists) {
 		if (!exists) {
-			console.log('file not found');
+			console.log('Error: info.json file not found');
 			process.exit();	
 		} else {
 			fs.readFile(userInfoFileName, function(error, data) {
 				if (error) {
-					console.log('read file error');
+					console.log('Error: can not read file');
 					process.exit();
 				}
 
@@ -27,7 +27,7 @@ if (userInfoFileName != undefined) {
 		}
 	});
 } else {
-	console.log('node app.js [info.json]');
+	console.log('* node app.js [info.json]');
 	process.exit();
 }
 
@@ -41,7 +41,7 @@ function initClone() {
 				console.log(stdout);
 				console.log(stderr);
 				if (error) {
-					console.log('git clone error');
+					console.log('Error: git clone');
 					process.exit();
 				}
 
@@ -90,7 +90,7 @@ function getProblemTitle() {
 		} else {
 			casper.title(['./casper/title.js', solvedProblemInfo[index].problemNumber], function(problemTitle) {
 				if (problemTitle == null) {
-					console.log('getProblemTitle error');
+					console.log('Error: getProblemTitle()');
 					process.exit();
 				}
 				
@@ -159,7 +159,7 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 				if (index > sourceTreePath.length) {
 					fs.writeFile(sourceName, info.source, function(error) {
 						if (error) {
-							console.log('save source error');
+							console.log('Error: save source');
 							process.exit();
 						}
 
@@ -175,7 +175,7 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 						else {
 							fs.mkdir(currentPath, function(error) {
 								if (error) {
-									console.log('mkdir error');
+									console.log('Error: mkdir');
 									process.exit();
 								}
 
@@ -188,7 +188,7 @@ function saveSource(sourceTree, sourceName, info, successSave) {
 		} else {
 			fs.writeFile(sourceName, info.source, function(error) {
 				if (error) {
-					console.log('save source error');
+					console.log('Error: save source');
 					process.exit();
 				}
 
