@@ -58,6 +58,14 @@ exports.sourceName = function(problemNumber, language, userInfo) {
 	return problemNumber + getExt(language);
 }
 
+function replaceNumber(value, problemNumber) {
+	return value.replace(/\[NO\]/gi, problemNumber);
+}
+
+function replaceAll(value, problemNumber, problemTitle) {
+	return value.replace(/\[NO\]/gi, problemNumber)).replace(/\[TITLE\]/gi, problemTitle));
+}
+
 function getExt(language) {
 	switch (language) {
 		case 'C': return '.c';
