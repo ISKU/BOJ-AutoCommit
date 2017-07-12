@@ -2,7 +2,7 @@
 ==========
 [![](https://d2gd6pc034wcta.cloudfront.net/images/logo.png)](https://www.acmicpc.net)
 ----------
- `BOJ-AutoCommit`은 [Baekjoon Online Judge](https://www.acmicpc.net)(BOJ)의 다양한 알고리즘 문제를 풀어서 제출하고 정답을 맞추면 [Github](https://github.com) 또는 [Bitbucket](https://bitbucket.org)과 같은 원격저장소에 Source Code를 Push합니다. 일정한 시간마다 `CasperJS`를 사용하여 BOJ에서 ID로 정답을 맞춘 문제들을 검색 및 분석하여, Repository에 해당 문제 파일이 존재하지 않으면 Source Code를 다운로드 받아 Local Repository에 저장함과 동시에 `Git`을 사용하여 Add, Commit 그리고 Push를 자동으로 하며, `Node.js`를 기반으로 만들어졌습니다.
+ `BOJ-AutoCommit`은 [Baekjoon Online Judge](https://www.acmicpc.net)(이하 BOJ)의 다양한 알고리즘 문제를 풀어서 제출하고 정답을 맞추면 [Github](https://github.com) 또는 [Bitbucket](https://bitbucket.org)과 같은 원격저장소에 Source Code를 Push합니다. 일정한 시간마다 `CasperJS`를 사용하여 BOJ에서 ID로 정답을 맞춘 문제들을 검색 및 분석하여, Repository에 해당 문제 파일이 존재하지 않으면 Source Code를 다운로드 받아 Local Repository에 저장함과 동시에 `Git`을 사용하여 Add, Commit 그리고 Push를 자동으로 하며, `Node.js`를 기반으로 만들어졌습니다.
 
 Installation
 ----------
@@ -89,8 +89,8 @@ Extension
 | **poll**           | BOJ의 맞은 문제를 검색하는 주기를 Millisecond 단위로 설정합니다. (최소 5분 이상이여야 합니다.)
 | **sourceName**     | Source 파일의 이름을 설정합니다. [NO]를 사용하여 문제번호로 저장하는 것을 추천합니다.
 
-> :bulb: [NO]: Option의 내용에 [NO]가 있으면 문제의 번호로 Replace 됩니다. <br>
-> :bulb: [TITLE]: Option의 내용에 [TITLE]이 있으면 문제의 제목으로 Replace 됩니다. (commitMessage Option에만 적용됩니다.)
+> :bulb: [NO]: 내용에 [NO]가 있으면 문제의 번호로 Replace 됩니다. <br>
+> :bulb: [TITLE]: 내용에 [TITLE]이 있으면 문제의 제목으로 Replace 됩니다. (commitMessage Option에만 적용됩니다.)
 
 Example
 ----------
@@ -106,7 +106,7 @@ Example
 	"remoteUrl": "https://github.com/ISKU/Algorithm",
 	
 	"commitMessage": "#[NO]: [TITLE]",
-	"sourceTree": "/Algorithm/BOJ",
+	"sourceTree": "Algorithm/BOJ",
 	"private": true,
 	"poll": 30000,
 	"sourceName": "Main"
