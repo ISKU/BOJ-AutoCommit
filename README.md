@@ -105,7 +105,7 @@ Example
 	"git_password": "my_github_password",
 	"remoteUrl": "https://github.com/ISKU/Algorithm",
 	
-	"commitMessage": "#[NO]: [TITLE]",
+	"commitMessage": "BOJ #[NO]: [TITLE]",
 	"sourceTree": "Algorithm/BOJ",
 	"private": true,
 	"poll": 30000,
