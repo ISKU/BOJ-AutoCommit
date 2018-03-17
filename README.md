@@ -121,4 +121,4 @@ Author
 ----------
 > - Minho Kim ([ISKU](https://github.com/ISKU))
 > - https://www.acmicpc.net/user/isku
-> - **E-mail:** minho1a@hanmail.net
+> - **E-mail:** minho.kim093@gmail.com
