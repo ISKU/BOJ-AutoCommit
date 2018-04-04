@@ -58,6 +58,14 @@ exports.sourceName = function(problemNumber, language, userInfo) {
 	return problemNumber + getExt(language);
 }
 
+exports.lang = function(language, userInfo) {
+	if (userInfo.hasOwnProperty('lang'))
+		if (userInfo.lang.toUpperCase() == language.toUpperCase())
+			return true;
+
+	return false;
+}
+
 function replaceNumber(value, problemNumber) {
 	return value.replace(/\[NO\]/gi, problemNumber);
 }

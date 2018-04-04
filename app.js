@@ -125,13 +125,18 @@ function downloadSource() {
 							console.log('* Failed to download source number #' + sourceNumber + ', problem number #' + problemNumber + '\n');
 							next(index - 1);
 						} else if (option.private(info, userInfo)) {
-							saveSource(sourceTree, sourceName, info, function() {
-								gitAll(info, function() {
-									next(index - 1);
+							if (option.lang(language, userInfo)) {
+								saveSource(sourceTree, sourceName, info, function() {
+									gitAll(info, function() {
+										next(index - 1);
+									});
 								});
-							});
+							} else {
+								console.log('* Problem #' + problemNumber + ' is not a ' + userInfo.lang + ' language.');
+								next(index - 1);
+							}
 						} else {
-							console.log('* Problem #' + info.problemNumber + ' is private.');
+							console.log('* Problem #' + problemNumber + ' is private.');
 							next(index - 1);
 						}
 					});
