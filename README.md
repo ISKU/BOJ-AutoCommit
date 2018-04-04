@@ -71,7 +71,8 @@ Extension
 	"mkdir": true,
 	"private": true,
 	"poll": 60000,
-	"sourceName": "[NO]"
+	"sourceName": "[NO]",
+	"lang": "Java"
 }
 ```
 > :bulb: 사용하지 않는 Option은 반드시 지워야 합니다.
@@ -88,6 +89,7 @@ Extension
 | **private**        | BOJ에서 Source를 비공개로 설정하면 해당 문제는 무시됩니다.
 | **poll**           | BOJ의 맞은 문제를 검색하는 주기를 Millisecond 단위로 설정합니다. (최소 5분 이상이여야 합니다.)
 | **sourceName**     | Source 파일의 이름을 설정합니다. [NO]를 사용하여 문제번호로 저장하는 것을 추천합니다.
+| **lang**           | 해당 언어로 제출한 Source만 원격저장소에 Push합니다.
 
 > :bulb: [NO]: 내용에 [NO]가 있으면 문제의 번호로 Replace 됩니다. <br>
 > :bulb: [TITLE]: 내용에 [TITLE]이 있으면 문제의 제목으로 Replace 됩니다. (commitMessage Option에만 적용됩니다.)
@@ -109,7 +111,8 @@ Example
 	"sourceTree": "Algorithm/BOJ",
 	"private": true,
 	"poll": 30000,
-	"sourceName": "Main"
+	"sourceName": "Main",
+	"lang": "Java"
 }
 ```
 
