@@ -100,10 +100,10 @@ Example
 
 License
 ----------
-> - [MIT](LICENSE)
+- [MIT](LICENSE)
 
 Author
 ----------
-> - Minho Kim ([ISKU](https://github.com/ISKU))
-> - https://www.acmicpc.net/user/isku
-> - **E-mail:** minho.kim093@gmail.com
+- Minho Kim ([ISKU](https://github.com/ISKU))
+- https://www.acmicpc.net/user/isku
+- **E-mail:** minho.kim093@gmail.com
