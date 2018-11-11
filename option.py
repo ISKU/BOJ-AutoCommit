@@ -27,7 +27,7 @@ class Option:
             return '%s' % self.option['source_tree'][:-1]
 
         if self.mkdir():
-            return '%s/%s' % (repo_name, self.dir_name(problem))
+            return '%s/%s' % (self.option['source_tree'], self.dir_name(problem))
         return '%s' % self.option['source_tree']
 
     def dir_name(self, problem):
