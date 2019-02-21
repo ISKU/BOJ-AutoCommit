@@ -15,6 +15,7 @@ class Git:
         self.repo_name = None
         self.pipe = subprocess.PIPE
 
+    # TODO: login verification
     def login_github(self, user_id, user_password):
         self.user_id = user_id
         self.user_password = user_password
