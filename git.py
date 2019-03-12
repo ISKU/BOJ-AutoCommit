@@ -103,6 +103,15 @@ class Git:
         proc = subprocess.Popen(command, cwd=cwd, stdout=self.pipe, stderr=self.pipe)
         stdout, stderr = proc.communicate()
 
+        """
+        This code is for debugging.
+        If you print the log, there is a risk of password exposure.
+        
+        if not stdout is None:
+            print(stdout.decode())
+        if not stderr is None:
+            print(stderr.decode())
+        """
         if proc.returncode != 0:
             return True, str(proc.returncode)
 
